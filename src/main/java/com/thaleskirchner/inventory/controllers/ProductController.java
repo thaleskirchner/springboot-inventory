@@ -1,4 +1,4 @@
-package com.thaleskirchner.inventory.resources;
+package com.thaleskirchner.inventory.controllers;
 
 import java.util.List;
 
@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.thaleskirchner.inventory.entities.Category;
-import com.thaleskirchner.inventory.services.CategoryService;
+import com.thaleskirchner.inventory.entities.Product;
+import com.thaleskirchner.inventory.services.ProductService;
 
 @RestController
-@RequestMapping(value = "/categories")
-public class CategoryResource {
+@RequestMapping(value = "/products")
+public class ProductController {
 
 	@Autowired
-	private CategoryService service;
+	private ProductService service;
 
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll() {
-		List<Category> list = service.findAll();
+	public ResponseEntity<List<Product>> findAll() {
+		List<Product> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id) {
+	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 }

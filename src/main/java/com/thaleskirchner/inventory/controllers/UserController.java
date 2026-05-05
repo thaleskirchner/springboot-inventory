@@ -1,4 +1,4 @@
-package com.thaleskirchner.inventory.resources;
+package com.thaleskirchner.inventory.controllers;
 
 import java.net.URI;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.thaleskirchner.inventory.services.UserService;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserResource {
+public class UserController {
 
 	@Autowired
 	private UserService service;
