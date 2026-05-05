@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.thaleskirchner.inventory.entities.Product;
 import com.thaleskirchner.inventory.repositories.ProductRepository;
+import com.thaleskirchner.inventory.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -19,6 +20,6 @@ public class ProductService {
 	}
 
 	public Product findById(Long id) {
-		return repository.findById(id).get();
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 }
