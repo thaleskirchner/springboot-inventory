@@ -48,7 +48,7 @@ public class Product implements Serializable {
 	}
 
 	public Product(Long id, String name, String description, Double price, String imgUrl,
-			Integer stockQuantity, Integer minimumStock) {
+			Integer stockQuantity, Integer minimumStock, Supplier supplier) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -57,6 +57,7 @@ public class Product implements Serializable {
 		this.imgUrl = imgUrl;
 		this.stockQuantity = stockQuantity;
 		this.minimumStock = minimumStock;
+		this.supplier = supplier;
 	}
 
 	public Long getId() {

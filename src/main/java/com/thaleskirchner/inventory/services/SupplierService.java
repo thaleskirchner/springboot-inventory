@@ -7,28 +7,28 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.thaleskirchner.inventory.entities.Category;
-import com.thaleskirchner.inventory.repositories.CategoryRepository;
+import com.thaleskirchner.inventory.entities.Supplier;
+import com.thaleskirchner.inventory.repositories.SupplierRepository;
 import com.thaleskirchner.inventory.services.exceptions.DataBaseException;
 import com.thaleskirchner.inventory.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class CategoryService {
+public class SupplierService {
 
 	@Autowired
-	private CategoryRepository repository;
+	private SupplierRepository repository;
 
-	public List<Category> findAll() {
+	public List<Supplier> findAll() {
 		return repository.findAll();
 	}
 
-	public Category findById(Long id) {
+	public Supplier findById(Long id) {
 		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public Category insert(Category obj) {
+	public Supplier insert(Supplier obj) {
 		return repository.save(obj);
 	}
 
@@ -42,9 +42,9 @@ public class CategoryService {
 		}
 	}
 
-	public Category update(Long id, Category obj) {
+	public Supplier update(Long id, Supplier obj) {
 		try {
-			Category entity = repository.getReferenceById(id);
+			Supplier entity = repository.getReferenceById(id);
 			updateData(entity, obj);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
@@ -52,8 +52,10 @@ public class CategoryService {
 		}
 	}
 
-	private void updateData(Category entity, Category obj) {
+	private void updateData(Supplier entity, Supplier obj) {
 		entity.setName(obj.getName());
+		entity.setCnpj(obj.getCnpj());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
 	}
 }
-

@@ -15,35 +15,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.thaleskirchner.inventory.entities.Product;
-import com.thaleskirchner.inventory.services.ProductService;
+import com.thaleskirchner.inventory.entities.Supplier;
+import com.thaleskirchner.inventory.services.SupplierService;
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductController {
+@RequestMapping(value = "/suppliers")
+public class SupplierController {
 
 	@Autowired
-	private ProductService service;
+	private SupplierService service;
 
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll() {
-		List<Product> list = service.findAll();
+	public ResponseEntity<List<Supplier>> findAll() {
+		List<Supplier> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id) {
+	public ResponseEntity<Supplier> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
-	@GetMapping(value = "/low-stock")
-	public ResponseEntity<List<Product>> findLowStock() {
-		List<Product> list = service.findLowStock();
-		return ResponseEntity.ok().body(list);
-	}
-
 	@PostMapping
-	public ResponseEntity<Product> insert(@RequestBody Product obj) {
+	public ResponseEntity<Supplier> insert(@RequestBody Supplier obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
@@ -57,7 +51,7 @@ public class ProductController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product obj) {
+	public ResponseEntity<Supplier> update(@PathVariable Long id, @RequestBody Supplier obj) {
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}
