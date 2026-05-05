@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 import com.thaleskirchner.inventory.entities.Supplier;
 import com.thaleskirchner.inventory.services.SupplierService;
 
@@ -37,7 +39,7 @@ public class SupplierController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Supplier> insert(@RequestBody Supplier obj) {
+	public ResponseEntity<Supplier> insert(@Valid @RequestBody Supplier obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
@@ -51,7 +53,7 @@ public class SupplierController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Supplier> update(@PathVariable Long id, @RequestBody Supplier obj) {
+	public ResponseEntity<Supplier> update(@PathVariable Long id, @Valid @RequestBody Supplier obj) {
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 import com.thaleskirchner.inventory.entities.Category;
 import com.thaleskirchner.inventory.services.CategoryService;
 
@@ -37,7 +39,7 @@ public class CategoryController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Category> insert(@RequestBody Category obj) {
+	public ResponseEntity<Category> insert(@Valid @RequestBody Category obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
@@ -51,7 +53,7 @@ public class CategoryController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category obj) {
+	public ResponseEntity<Category> update(@PathVariable Long id, @Valid @RequestBody Category obj) {
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}

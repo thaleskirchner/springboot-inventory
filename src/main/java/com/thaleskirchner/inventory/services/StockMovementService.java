@@ -9,6 +9,7 @@ import com.thaleskirchner.inventory.entities.Product;
 import com.thaleskirchner.inventory.entities.StockMovement;
 import com.thaleskirchner.inventory.repositories.ProductRepository;
 import com.thaleskirchner.inventory.repositories.StockMovementRepository;
+import com.thaleskirchner.inventory.services.exceptions.DataBaseException;
 import com.thaleskirchner.inventory.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -48,6 +49,9 @@ public class StockMovementService {
 				product.setStockQuantity(currentStock + movement.getQuantity());
 				break;
 			case EXIT:
+				if (currentStock - movement.getQuantity() < 0) {
+					throw new DataBaseException("Estoque insuficiente");
+				}
 				product.setStockQuantity(currentStock - movement.getQuantity());
 				break;
 			case ADJUSTMENT:

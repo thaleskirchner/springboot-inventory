@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 import com.thaleskirchner.inventory.entities.Product;
 import com.thaleskirchner.inventory.services.ProductService;
 
@@ -43,7 +45,7 @@ public class ProductController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Product> insert(@RequestBody Product obj) {
+	public ResponseEntity<Product> insert(@Valid @RequestBody Product obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
@@ -57,7 +59,7 @@ public class ProductController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product obj) {
+	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product obj) {
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}

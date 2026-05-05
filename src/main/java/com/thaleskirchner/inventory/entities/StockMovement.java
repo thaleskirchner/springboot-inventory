@@ -13,6 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "tb_stock_movement")
@@ -22,9 +25,17 @@ public class StockMovement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "Quantidade é obrigatória")
+    @Positive(message = "Quantidade deve ser positiva")
     private Integer quantity;
+
+    @NotNull(message = "Tipo de movimentação é obrigatório")
     private Integer movementType;
+
     private Instant moment;
+
+    @NotBlank(message = "Motivo é obrigatório")
     private String reason;
 
     @ManyToOne

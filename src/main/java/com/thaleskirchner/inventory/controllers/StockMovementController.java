@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 import com.thaleskirchner.inventory.entities.StockMovement;
 import com.thaleskirchner.inventory.services.StockMovementService;
 
@@ -41,7 +43,7 @@ public class StockMovementController {
 	}
 
 	@PostMapping
-	public ResponseEntity<StockMovement> insert(@RequestBody StockMovement obj) {
+	public ResponseEntity<StockMovement> insert(@Valid @RequestBody StockMovement obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();

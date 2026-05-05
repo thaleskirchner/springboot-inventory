@@ -10,6 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_user")
@@ -19,9 +22,18 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotBlank(message = "Nome é obrigatório")
 	private String name;
+
+	@NotBlank(message = "Email é obrigatório")
+	@Email(message = "Email deve ser válido")
 	private String email;
+
 	private String phone;
+
+	@NotBlank(message = "Senha é obrigatória")
+	@Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
 	private String password;
 
 	public User() {
