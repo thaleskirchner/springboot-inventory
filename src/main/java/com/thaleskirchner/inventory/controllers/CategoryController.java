@@ -1,8 +1,8 @@
 package com.thaleskirchner.inventory.controllers;
 
 import java.net.URI;
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +28,8 @@ public class CategoryController {
 	private CategoryService service;
 
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll() {
-		List<Category> list = service.findAll();
+	public ResponseEntity<Page<Category>> findAll(Pageable pageable) {
+		Page<Category> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 

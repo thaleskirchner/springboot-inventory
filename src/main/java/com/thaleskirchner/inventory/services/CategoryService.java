@@ -1,7 +1,7 @@
 package com.thaleskirchner.inventory.services;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,8 +20,8 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository repository;
 
-	public List<Category> findAll() {
-		return repository.findAll();
+	public Page<Category> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	public Category findById(Long id) {

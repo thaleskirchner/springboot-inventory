@@ -1,8 +1,8 @@
 package com.thaleskirchner.inventory.controllers;
 
 import java.net.URI;
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +26,8 @@ public class StockMovementController {
 	private StockMovementService service;
 
 	@GetMapping
-	public ResponseEntity<List<StockMovement>> findAll() {
-		List<StockMovement> list = service.findAll();
+	public ResponseEntity<Page<StockMovement>> findAll(Pageable pageable) {
+		Page<StockMovement> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
@@ -37,8 +37,8 @@ public class StockMovementController {
 	}
 
 	@GetMapping(value = "/product/{productId}")
-	public ResponseEntity<List<StockMovement>> findByProductId(@PathVariable Long productId) {
-		List<StockMovement> list = service.findByProductId(productId);
+	public ResponseEntity<Page<StockMovement>> findByProductId(@PathVariable Long productId, Pageable pageable) {
+		Page<StockMovement> list = service.findByProductId(productId, pageable);
 		return ResponseEntity.ok().body(list);
 	}
 

@@ -1,7 +1,7 @@
 package com.thaleskirchner.inventory.services;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,16 +20,16 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 
-	public List<Product> findAll() {
-		return repository.findAll();
+	public Page<Product> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	public Product findById(Long id) {
 		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public List<Product> findLowStock() {
-		return repository.findLowStockProducts();
+	public Page<Product> findLowStock(Pageable pageable) {
+		return repository.findLowStockProducts(pageable);
 	}
 
 	public Product insert(Product obj) {

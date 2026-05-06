@@ -1,8 +1,8 @@
 package com.thaleskirchner.inventory.controllers;
 
 import java.net.URI;
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +28,8 @@ public class ProductController {
 	private ProductService service;
 
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll() {
-		List<Product> list = service.findAll();
+	public ResponseEntity<Page<Product>> findAll(Pageable pageable) {
+		Page<Product> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
@@ -39,8 +39,8 @@ public class ProductController {
 	}
 
 	@GetMapping(value = "/low-stock")
-	public ResponseEntity<List<Product>> findLowStock() {
-		List<Product> list = service.findLowStock();
+	public ResponseEntity<Page<Product>> findLowStock(Pageable pageable) {
+		Page<Product> list = service.findLowStock(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 

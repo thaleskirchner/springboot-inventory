@@ -1,7 +1,7 @@
 package com.thaleskirchner.inventory.services;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +21,16 @@ public class StockMovementService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	public List<StockMovement> findAll() {
-		return repository.findAll();
+	public Page<StockMovement> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	public StockMovement findById(Long id) {
 		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public List<StockMovement> findByProductId(Long productId) {
-		return repository.findByProductId(productId);
+	public Page<StockMovement> findByProductId(Long productId, Pageable pageable) {
+		return repository.findByProductId(productId, pageable);
 	}
 
 	public StockMovement insert(StockMovement obj) {
