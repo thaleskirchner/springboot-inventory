@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.thaleskirchner.inventory.dto.ProductDTO;
 import com.thaleskirchner.inventory.entities.Product;
 import com.thaleskirchner.inventory.repositories.ProductRepository;
 import com.thaleskirchner.inventory.services.exceptions.DataBaseException;
@@ -20,16 +21,19 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 
-	public Page<Product> findAll(Pageable pageable) {
-		return repository.findAll(pageable);
+	public Page<ProductDTO> findAll(Pageable pageable) {
+		Page<Product> result = repository.findAll(pageable);
+		return result.map(ProductDTO::new);
 	}
 
-	public Product findById(Long id) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+	public ProductDTO findById(Long id) {
+		Product entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return new ProductDTO(entity);
 	}
 
-	public Page<Product> findLowStock(Pageable pageable) {
-		return repository.findLowStockProducts(pageable);
+	public Page<ProductDTO> findLowStock(Pageable pageable) {
+		Page<Product> result = repository.findLowStockProducts(pageable);
+		return result.map(ProductDTO::new);
 	}
 
 	public Product insert(Product obj) {

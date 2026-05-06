@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
+import com.thaleskirchner.inventory.dto.SupplierDTO;
 import com.thaleskirchner.inventory.entities.Supplier;
 import com.thaleskirchner.inventory.services.SupplierService;
 
@@ -28,13 +29,13 @@ public class SupplierController {
 	private SupplierService service;
 
 	@GetMapping
-	public ResponseEntity<Page<Supplier>> findAll(Pageable pageable) {
-		Page<Supplier> list = service.findAll(pageable);
+	public ResponseEntity<Page<SupplierDTO>> findAll(Pageable pageable) {
+		Page<SupplierDTO> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Supplier> findById(@PathVariable Long id) {
+	public ResponseEntity<SupplierDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 

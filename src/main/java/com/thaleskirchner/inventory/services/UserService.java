@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.thaleskirchner.inventory.dto.UserDTO;
 import com.thaleskirchner.inventory.entities.User;
 import com.thaleskirchner.inventory.repositories.UserRepository;
 import com.thaleskirchner.inventory.services.exceptions.DataBaseException;
@@ -20,12 +21,14 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 
-	public Page<User> findAll(Pageable pageable) {
-		return repository.findAll(pageable);
+	public Page<UserDTO> findAll(Pageable pageable) {
+		Page<User> result = repository.findAll(pageable);
+		return result.map(UserDTO::new);
 	}
 
-	public User findById(Long id) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+	public UserDTO findById(Long id) {
+		User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return new UserDTO(entity);
 	}
 
 	public User insert(User obj) {

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
+import com.thaleskirchner.inventory.dto.ProductDTO;
 import com.thaleskirchner.inventory.entities.Product;
 import com.thaleskirchner.inventory.services.ProductService;
 
@@ -28,19 +29,19 @@ public class ProductController {
 	private ProductService service;
 
 	@GetMapping
-	public ResponseEntity<Page<Product>> findAll(Pageable pageable) {
-		Page<Product> list = service.findAll(pageable);
+	public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
+		Page<ProductDTO> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id) {
+	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
 	@GetMapping(value = "/low-stock")
-	public ResponseEntity<Page<Product>> findLowStock(Pageable pageable) {
-		Page<Product> list = service.findLowStock(pageable);
+	public ResponseEntity<Page<ProductDTO>> findLowStock(Pageable pageable) {
+		Page<ProductDTO> list = service.findLowStock(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 

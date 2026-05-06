@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.thaleskirchner.inventory.dto.SupplierDTO;
 import com.thaleskirchner.inventory.entities.Supplier;
 import com.thaleskirchner.inventory.repositories.SupplierRepository;
 import com.thaleskirchner.inventory.services.exceptions.DataBaseException;
@@ -20,12 +21,14 @@ public class SupplierService {
 	@Autowired
 	private SupplierRepository repository;
 
-	public Page<Supplier> findAll(Pageable pageable) {
-		return repository.findAll(pageable);
+	public Page<SupplierDTO> findAll(Pageable pageable) {
+		Page<Supplier> result = repository.findAll(pageable);
+		return result.map(SupplierDTO::new);
 	}
 
-	public Supplier findById(Long id) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+	public SupplierDTO findById(Long id) {
+		Supplier entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return new SupplierDTO(entity);
 	}
 
 	public Supplier insert(Supplier obj) {

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
+import com.thaleskirchner.inventory.dto.CategoryDTO;
 import com.thaleskirchner.inventory.entities.Category;
 import com.thaleskirchner.inventory.services.CategoryService;
 
@@ -28,13 +29,13 @@ public class CategoryController {
 	private CategoryService service;
 
 	@GetMapping
-	public ResponseEntity<Page<Category>> findAll(Pageable pageable) {
-		Page<Category> list = service.findAll(pageable);
+	public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable) {
+		Page<CategoryDTO> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id) {
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 

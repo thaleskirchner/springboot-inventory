@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thaleskirchner.inventory.dto.StockMovementDTO;
 import com.thaleskirchner.inventory.entities.Product;
 import com.thaleskirchner.inventory.entities.StockMovement;
 import com.thaleskirchner.inventory.repositories.ProductRepository;
@@ -21,16 +22,19 @@ public class StockMovementService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	public Page<StockMovement> findAll(Pageable pageable) {
-		return repository.findAll(pageable);
+	public Page<StockMovementDTO> findAll(Pageable pageable) {
+		Page<StockMovement> result = repository.findAll(pageable);
+		return result.map(StockMovementDTO::new);
 	}
 
-	public StockMovement findById(Long id) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+	public StockMovementDTO findById(Long id) {
+		StockMovement entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return new StockMovementDTO(entity);
 	}
 
-	public Page<StockMovement> findByProductId(Long productId, Pageable pageable) {
-		return repository.findByProductId(productId, pageable);
+	public Page<StockMovementDTO> findByProductId(Long productId, Pageable pageable) {
+		Page<StockMovement> result = repository.findByProductId(productId, pageable);
+		return result.map(StockMovementDTO::new);
 	}
 
 	public StockMovement insert(StockMovement obj) {

@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.thaleskirchner.inventory.dto.CategoryDTO;
 import com.thaleskirchner.inventory.entities.Category;
 import com.thaleskirchner.inventory.repositories.CategoryRepository;
 import com.thaleskirchner.inventory.services.exceptions.DataBaseException;
@@ -20,12 +21,14 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository repository;
 
-	public Page<Category> findAll(Pageable pageable) {
-		return repository.findAll(pageable);
+	public Page<CategoryDTO> findAll(Pageable pageable) {
+		Page<Category> result = repository.findAll(pageable);
+		return result.map(CategoryDTO::new);
 	}
 
-	public Category findById(Long id) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+	public CategoryDTO findById(Long id) {
+		Category entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return new CategoryDTO(entity);
 	}
 
 	public Category insert(Category obj) {

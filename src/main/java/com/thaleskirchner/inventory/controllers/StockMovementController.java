@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
+import com.thaleskirchner.inventory.dto.StockMovementDTO;
 import com.thaleskirchner.inventory.entities.StockMovement;
 import com.thaleskirchner.inventory.services.StockMovementService;
 
@@ -26,19 +27,19 @@ public class StockMovementController {
 	private StockMovementService service;
 
 	@GetMapping
-	public ResponseEntity<Page<StockMovement>> findAll(Pageable pageable) {
-		Page<StockMovement> list = service.findAll(pageable);
+	public ResponseEntity<Page<StockMovementDTO>> findAll(Pageable pageable) {
+		Page<StockMovementDTO> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<StockMovement> findById(@PathVariable Long id) {
+	public ResponseEntity<StockMovementDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
 	@GetMapping(value = "/product/{productId}")
-	public ResponseEntity<Page<StockMovement>> findByProductId(@PathVariable Long productId, Pageable pageable) {
-		Page<StockMovement> list = service.findByProductId(productId, pageable);
+	public ResponseEntity<Page<StockMovementDTO>> findByProductId(@PathVariable Long productId, Pageable pageable) {
+		Page<StockMovementDTO> list = service.findByProductId(productId, pageable);
 		return ResponseEntity.ok().body(list);
 	}
 

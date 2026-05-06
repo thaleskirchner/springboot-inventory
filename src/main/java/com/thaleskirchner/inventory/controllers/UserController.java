@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
+import com.thaleskirchner.inventory.dto.UserDTO;
 import com.thaleskirchner.inventory.entities.User;
 import com.thaleskirchner.inventory.services.UserService;
 
@@ -28,13 +29,13 @@ public class UserController {
 	private UserService service;
 
 	@GetMapping
-	public ResponseEntity<Page<User>> findAll(Pageable pageable) {
-		Page<User> list = service.findAll(pageable);
+	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
+		Page<UserDTO> list = service.findAll(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id) {
+	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
