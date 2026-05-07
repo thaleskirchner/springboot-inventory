@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thaleskirchner.inventory.dto.SupplierDTO;
 import com.thaleskirchner.inventory.entities.Supplier;
@@ -21,20 +22,24 @@ public class SupplierService {
 	@Autowired
 	private SupplierRepository repository;
 
+	@Transactional(readOnly = true)
 	public Page<SupplierDTO> findAll(Pageable pageable) {
 		Page<Supplier> result = repository.findAll(pageable);
 		return result.map(SupplierDTO::new);
 	}
 
+	@Transactional(readOnly = true)
 	public SupplierDTO findById(Long id) {
 		Supplier entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 		return new SupplierDTO(entity);
 	}
 
+	@Transactional
 	public Supplier insert(Supplier obj) {
 		return repository.save(obj);
 	}
 
+	@Transactional
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -45,6 +50,7 @@ public class SupplierService {
 		}
 	}
 
+	@Transactional
 	public Supplier update(Long id, Supplier obj) {
 		try {
 			Supplier entity = repository.getReferenceById(id);

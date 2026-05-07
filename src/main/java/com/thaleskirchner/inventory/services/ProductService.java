@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thaleskirchner.inventory.dto.ProductDTO;
 import com.thaleskirchner.inventory.entities.Product;
@@ -21,25 +22,30 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 
+	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAll(Pageable pageable) {
 		Page<Product> result = repository.findAll(pageable);
 		return result.map(ProductDTO::new);
 	}
 
+	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
 		Product entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 		return new ProductDTO(entity);
 	}
 
+	@Transactional(readOnly = true)
 	public Page<ProductDTO> findLowStock(Pageable pageable) {
 		Page<Product> result = repository.findLowStockProducts(pageable);
 		return result.map(ProductDTO::new);
 	}
 
+	@Transactional
 	public Product insert(Product obj) {
 		return repository.save(obj);
 	}
 
+	@Transactional
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -50,6 +56,7 @@ public class ProductService {
 		}
 	}
 
+	@Transactional
 	public Product update(Long id, Product obj) {
 		try {
 			Product entity = repository.getReferenceById(id);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thaleskirchner.inventory.dto.UserDTO;
 import com.thaleskirchner.inventory.entities.User;
@@ -21,20 +22,24 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 
+	@Transactional(readOnly = true)
 	public Page<UserDTO> findAll(Pageable pageable) {
 		Page<User> result = repository.findAll(pageable);
 		return result.map(UserDTO::new);
 	}
 
+	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
 		User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 		return new UserDTO(entity);
 	}
 
+	@Transactional
 	public User insert(User obj) {
 		return repository.save(obj);
 	}
 
+	@Transactional
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -45,6 +50,7 @@ public class UserService {
 		}
 	}
 
+	@Transactional
 	public User update(Long id, User obj) {
 		try {
 			User entity = repository.getReferenceById(id);
